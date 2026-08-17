@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>サッカーボール板材計算機</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <h1>サッカーボール板材計算機</h1>
+    <p class="lead">
+      正五角形12枚＋正六角形20枚で作る切頂二十面体について、
+      板材の寸法・加工寸法・球の寸法を計算する。
+    </p>
+
+    <section class="card">
+      <h2>1. 入力</h2>
+      <div class="inputs">
+        <div>
+          <label for="side">外側の一辺</label>
+          <div class="input-row">
+            <input id="side" type="number" step="any" inputmode="decimal"
+                   placeholder="例：50" aria-describedby="sideUnit"
+                   aria-errormessage="error" aria-invalid="false">
+            <span id="sideUnit" class="unit">mm</span>
+          </div>
+        </div>
+
+        <div>
+          <label for="thickness">板厚 <span class="optional-label">（任意）</span></label>
+          <div class="input-row">
+            <input id="thickness" type="number" min="0" step="any" inputmode="decimal"
+                   placeholder="例：10" aria-describedby="thicknessUnit thicknessNote thicknessStatus"
+                   aria-errormessage="error" aria-invalid="false">
+            <span id="thicknessUnit" class="unit">mm</span>
+          </div>
+          <div class="note">
+            <span id="thicknessNote">板厚を入力すると、裏面の削り込み量も計算する。</span><br>
+            <span id="thicknessRequirement">最大球径まで削るための必要板厚：一辺を入力</span><br>
+            <span id="thicknessStatus" role="status" aria-live="polite">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="error" class="error" role="alert" hidden></div>
+    </section>
+
+    <section class="card">
+      <h2>2. 板材の寸法</h2>
+      <div class="grid two">
+        <div class="result-box">
+          <div class="result-title">正五角形 × 12</div>
+          <div class="row">
+            <span class="key">一辺</span>
+            <span id="markP5Side" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">対角線</span>
+            <span id="markP5Diagonal" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">外接円半径</span>
+            <span id="markP5Circumradius" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">内角</span>
+            <span class="value">108°</span>
+          </div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-title">正六角形 × 20</div>
+          <div class="row">
+            <span class="key">一辺</span>
+            <span id="markP6Side" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">短い対角線</span>
+            <span id="markP6ShortDiagonal" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">長い対角線</span>
+            <span id="markP6LongDiagonal" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">外接円半径</span>
+            <span id="markP6Circumradius" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">内角</span>
+            <span class="value">120°</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. 加工寸法</h2>
+      <div class="grid two">
+        <div class="result-box">
+          <div class="result-title">正五角形</div>
+          <div class="row">
+            <span class="key">外側一辺</span>
+            <span id="p5Outer" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">削り込み量</span>
+            <span id="p5Cutback" class="value">板厚を入力</span>
+          </div>
+          <div class="row">
+            <span class="key">側面の傾斜角</span>
+            <span id="p5Angle" class="value">—</span>
+          </div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-title">正六角形</div>
+          <div class="row">
+            <span class="key">外側一辺</span>
+            <span id="p6Outer" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">削り込み量</span>
+            <span id="p6Cutback" class="value">板厚を入力</span>
+          </div>
+          <div class="row">
+            <span class="key">側面の傾斜角</span>
+            <span id="p6Angle" class="value">—</span>
+          </div>
+        </div>
+      </div>
+      <div class="fixed">
+        側面が完成形の中心へ向かうように加工する場合の、直角切断からの傾斜角を示す。<br>
+        削り込み量は、裏面で外側の各辺から内側へ平行に取る距離。
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. 球の寸法</h2>
+      <div class="grid">
+        <div class="result-box">
+          <div class="row">
+            <span class="key">組立時の最大外径</span>
+            <span id="diameter" class="value">—</span>
+          </div>
+          <div class="row">
+            <span class="key">削り出した後の最大球径</span>
+            <span id="sphereDiameter" class="value">—</span>
+          </div>
+        </div>
+      </div>
+      <div class="fixed">
+        組立時の最大外径は、向かい合う頂点どうしの距離。<br>
+        最大球径は、外形から理論上削り出せる最大の真球の直径。
+      </div>
+    </section>
+
+    <footer>
+      前提：すべての外側の辺長が等しい切頂二十面体。
+      板厚は外側面から中心方向へ、各面に垂直に測った厚さとして計算する。
+    </footer>
+  </main>
+
+  <script src="js/calculator.js"></script>
+</body>
+</html>
